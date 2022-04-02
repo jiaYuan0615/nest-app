@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
-import { Role } from "./Role";
+import { Role } from "./role.entity";
 
 @Entity('permissions')
 export class Permission {
@@ -7,7 +7,13 @@ export class Permission {
   id: string;
 
   @Column({ length: 20 })
-  name: string;
+  title: string;
+
+  @Column({ length: 100 })
+  action: string;
+
+  @Column({ default: true })
+  status: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -20,6 +26,16 @@ export class Permission {
    * Relations
    */
   @ManyToMany(() => Role)
-  @JoinTable({ name: 'role_permission' })
+  @JoinTable({
+    name: 'permission_role',
+    joinColumn: {
+      name: 'permission_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'role_id',
+      referencedColumnName: 'id'
+    }
+  })
   roles: Role[]
 }
