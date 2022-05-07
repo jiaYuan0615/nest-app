@@ -1,9 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { Singer } from "./singer.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Singer } from './singer.entity';
 
 @Entity('songs')
 export class Song {
-
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -14,7 +20,7 @@ export class Song {
    * 詞
    */
   @Column({ length: 20 })
-  lyricist: string
+  lyricist: string;
 
   /**
    * 曲
@@ -22,10 +28,8 @@ export class Song {
   @Column({ length: 20 })
   composer: string;
 
-
-  @Column({ type: "text" })
+  @Column({ type: 'text' })
   lyric: string;
-
 
   @CreateDateColumn()
   createdAt: Date;
@@ -33,6 +37,6 @@ export class Song {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Singer, singer => singer.songs)
+  @ManyToOne(() => Singer, (singer) => singer.songs)
   singer: Singer;
 }

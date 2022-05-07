@@ -1,11 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Req,
+  Res,
+  HttpStatus,
+} from '@nestjs/common';
+import { Request, Response } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('user')
+@ApiTags('users')
+@Controller('/api/user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(
+    private readonly userService: UserService,
+  ) { }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -13,8 +29,14 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll(@Req() req: Request, @Res() res: Response) {
+    const payload = {
+      title: 'Test /api/user',
+    }
+    const data = await this.userService.findAll();
+    console.log(data);
+
+    res.status(HttpStatus.OK).json({ data })
   }
 
   @Get(':id')

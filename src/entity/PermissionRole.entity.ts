@@ -1,6 +1,15 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
-import { Role } from "./role.entity";
-import { Permission } from "./permission.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  JoinTable,
+  ManyToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Role } from './role.entity';
+import { Permission } from './permission.entity';
 
 @Entity('permission_role')
 export class PermissionRole {
@@ -8,10 +17,13 @@ export class PermissionRole {
   id: string;
 
   @Column()
-  roleId: string
+  roleId: string;
 
   @Column()
-  permissionId: string
+  permissionId: string;
+
+  @Column()
+  status: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -19,9 +31,10 @@ export class PermissionRole {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Permission, (permission) => permission.permission_role);
+  // pivot 有客製化需求則要加入下面兩行
+  @ManyToOne(() => Permission, (permission) => permission.permission_role)
   public permission!: Permission;
 
-  @ManyToOne(() => Role, (role) => role.permission_role);
+  @ManyToOne(() => Role, (role) => role.permission_role)
   public role!: Role;
 }
