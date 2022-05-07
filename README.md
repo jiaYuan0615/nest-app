@@ -27,7 +27,7 @@
 ## Enviroment Version
 
 ```
-NodeJS version 12.2212
+NodeJS version 12.22.12
 ```
 
 ## Installation
